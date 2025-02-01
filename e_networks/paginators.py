@@ -1,7 +1,7 @@
 from rest_framework.pagination import PageNumberPagination
 
 
-class NetworkNodePagination(PageNumberPagination):
+class CustomPaginator(PageNumberPagination):
     """
     Кастомный пагинатор для узлов сети
     """

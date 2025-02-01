@@ -1,4 +1,7 @@
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
 from rest_framework.fields import SerializerMethodField
+from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer, BaseSerializer
 
 from e_networks.models import NetworkNode, Contacts, Product
@@ -21,7 +24,7 @@ class ProductSerializer(ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('name', 'model', 'release_date')
+        fields = '__all__'
 
 
 
@@ -48,7 +51,7 @@ class NetworkNodeUpdateSerializer(ModelSerializer):
     """
     Сериализатор для обновления узла сети
     """
-    contacts = ContactsSerializer()
+    contacts = ContactsSerializer(read_only=True)
 
     class Meta:
         model = NetworkNode
@@ -62,10 +65,14 @@ class NetworkSupplierSerializer(ModelSerializer):
     Сериализатор для получения поставщика
     """
     contacts = ContactsSerializer()
+    products_count = SerializerMethodField()
+
+    def get_products_count(self, obj):
+        return obj.products.count()
 
     class Meta:
         model = NetworkNode
-        exclude = ('debt', 'created_at', 'supplier')
+        exclude = ('debt', 'created_at', 'supplier', 'products')
 
 
 
@@ -91,14 +98,6 @@ class NetworkNodeListSerializer(ModelSerializer):
     product_count = SerializerMethodField()
     def get_product_count(self, obj):
         return obj.products.count()
-    # уровень иерархии узла
-    level = SerializerMethodField()
-    def get_level(self, obj):
-        level = 0
-        while obj.supplier:
-            level += 1
-            obj = obj.supplier
-        return level
 
     contacts = ContactsSerializer()
     supplier = NetworkSupplierSerializer()
@@ -117,3 +116,33 @@ class NetworkDestroySerializer(ModelSerializer):
         model = NetworkNode
         fields = ('id', 'name')
         read_only_fields = ('id', 'name')
+
+
+class AddProductToNetworkNodeSerializer(ModelSerializer):
+    """
+    Сериализатор для добавления продукта к узлу сети
+    """
+    add_product = PrimaryKeyRelatedField(queryset=Product.objects.all(), write_only=True)
+    added_product = SerializerMethodField()
+    def get_added_product(self, obj):
+        data = obj.products.last()
+        return ProductSerializer(data).data
+
+    class Meta:
+        model = NetworkNode
+        fields = ('add_product', 'added_product')
+
+
+    def update(self, instance, validated_data):
+        product = validated_data.pop('add_product')
+        if instance.products.filter(id=product.id).exists():
+            raise ValidationError('Продукт уже добавлен к данному узлу')
+        if instance.level == 0:
+            instance.products.add(product)
+        else:
+            check = instance.supplier.products.filter(id=product.id).exists()
+            if check:
+                instance.products.add(product)
+            else:
+                raise ValidationError('Продукт не найден у поставщика')
+        return instance

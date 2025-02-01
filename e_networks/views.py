@@ -3,10 +3,11 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django_filters import rest_framework as filters
 
-from e_networks.models import NetworkNode, Product
-from e_networks.paginators import NetworkNodePagination
+from e_networks.models import NetworkNode, Product, Contacts
+from e_networks.paginators import CustomPaginator
 from e_networks.serializers import NetworkNodeCreateSerializer, NetworkNodeRetrieveSerializer, \
-    NetworkNodeListSerializer, NetworkNodeUpdateSerializer, ProductSerializer
+    NetworkNodeListSerializer, NetworkNodeUpdateSerializer, ProductSerializer, AddProductToNetworkNodeSerializer, \
+    ContactsSerializer
 
 
 class NetworkNodeCreateAPIView(CreateAPIView):
@@ -44,7 +45,7 @@ class NetworkNodeListAPIView(ListAPIView):
     queryset = NetworkNode.objects.all().order_by('-created_at')
     serializer_class = NetworkNodeListSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = NetworkNodePagination
+    pagination_class = CustomPaginator
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('contacts__country',)
 
@@ -58,14 +59,36 @@ class NetworkNodeDestroyAPIView(DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
+class AddProductUpdateAPIView(UpdateAPIView):
+    """
+    Обновление продукта
+    """
+    queryset = NetworkNode.objects.all()
+    serializer_class = AddProductToNetworkNodeSerializer
+    permission_classes = [IsAuthenticated]
+
+
 class ProductViewSet(ModelViewSet):
     """
     Вьюсет для продуктов
     """
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('id')
     serializer_class = ProductSerializer
-    permission_classes = [IsAdminUser]
-    pagination_class = NetworkNodePagination
+    pagination_class = CustomPaginator
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('name', 'model', 'release_date')
 
+    def get_permissions(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return [IsAuthenticated()]
+        return [IsAdminUser()]
+
+
+class ContactsViewSet(ModelViewSet):
+    """
+    Вьюсет для контактов
+    """
+    queryset = Contacts.objects.all().order_by('id')
+    serializer_class = ContactsSerializer
+    pagination_class = CustomPaginator
+    permission_classes = [IsAuthenticated]

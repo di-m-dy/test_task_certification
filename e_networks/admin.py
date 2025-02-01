@@ -14,7 +14,6 @@ class UserCustomAdmin(admin.ModelAdmin):
 @admin.register(NetworkNode)
 class NetworkNodeAdmin(admin.ModelAdmin):
     list_display = ('name', 'supplier', 'debt', 'contacts', 'id')
-    list_display_links = ('supplier', 'contacts')
     list_filter = ('contacts__city',)
     actions = ['clear_debt']
 

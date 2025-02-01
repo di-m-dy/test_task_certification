@@ -1,0 +1,50 @@
+[
+    {
+        "model": "e_networks.contacts",
+        "pk": 1,
+        "fields": {
+            "email": "john.doe@example.com",
+            "country": "US",
+            "city": "New York",
+            "street": "5th Avenue",
+            "house": 123,
+            "google_map_link": "https://maps.google.com/?q=5th+Avenue,New+York"
+        }
+    },
+    {
+        "model": "e_networks.contacts",
+        "pk": 2,
+        "fields": {
+            "email": "jane.smith@example.com",
+            "country": "GB",
+            "city": "London",
+            "street": "Baker Street",
+            "house": 221,
+            "google_map_link": "https://maps.google.com/?q=Baker+Street,London"
+        }
+    },
+    {
+        "model": "e_networks.contacts",
+        "pk": 3,
+        "fields": {
+            "email": "michael.brown@example.com",
+            "country": "CA",
+            "city": "Toronto",
+            "street": "Queen Street",
+            "house": 456,
+            "google_map_link": "https://maps.google.com/?q=Queen+Street,Toronto"
+        }
+    },
+    {
+        "model": "e_networks.contacts",
+        "pk": 4,
+        "fields": {
+            "email": "anna.wilson@example.com",
+            "country": "AU",
+            "city": "Sydney",
+            "street": "George Street",
+            "house": 789,
+            "google_map_link": "https://maps.google.com/?q=George+Street,Sydney"
+        }
+    }
+]

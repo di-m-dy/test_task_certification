@@ -1,0 +1,50 @@
+[
+    {
+        "model": "e_networks.networknode",
+        "pk": 1,
+        "fields": {
+            "name": "Main Distributor",
+            "contacts": 1,
+            "products": [1, 2, 3],
+            "supplier": null,
+            "debt": "0.00",
+            "created_at": "2024-02-01T10:00:00Z"
+        }
+    },
+    {
+        "model": "e_networks.networknode",
+        "pk": 2,
+        "fields": {
+            "name": "Regional Retailer",
+            "contacts": 2,
+            "products": [2, 3],
+            "supplier": 1,
+            "debt": "5000.50",
+            "created_at": "2024-02-02T12:30:00Z"
+        }
+    },
+    {
+        "model": "e_networks.networknode",
+        "pk": 3,
+        "fields": {
+            "name": "Local Store A",
+            "contacts": 3,
+            "products": [3],
+            "supplier": 2,
+            "debt": "1200.75",
+            "created_at": "2024-02-03T14:45:00Z"
+        }
+    },
+    {
+        "model": "e_networks.networknode",
+        "pk": 4,
+        "fields": {
+            "name": "Local Store B",
+            "contacts": 4,
+            "products": [2],
+            "supplier": 2,
+            "debt": "750.25",
+            "created_at": "2024-02-04T16:15:00Z"
+        }
+    }
+]

@@ -1,0 +1,38 @@
+[
+    {
+        "model": "e_networks.product",
+        "pk": 1,
+        "fields": {
+            "name": "iPhone 13",
+            "model": "A2633",
+            "release_date": "2021-09-24"
+        }
+    },
+    {
+        "model": "e_networks.product",
+        "pk": 2,
+        "fields": {
+            "name": "Samsung Galaxy S21",
+            "model": "SM-G991B",
+            "release_date": "2021-01-29"
+        }
+    },
+    {
+        "model": "e_networks.product",
+        "pk": 3,
+        "fields": {
+            "name": "Sony PlayStation 5",
+            "model": "CFI-1000A01",
+            "release_date": "2020-11-12"
+        }
+    },
+    {
+        "model": "e_networks.product",
+        "pk": 4,
+        "fields": {
+            "name": "MacBook Pro 16",
+            "model": "A2485",
+            "release_date": "2021-10-18"
+        }
+    }
+]
