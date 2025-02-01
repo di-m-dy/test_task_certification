@@ -36,6 +36,7 @@ class NetworkNodeRetrieveAPIView(RetrieveAPIView):
     serializer_class = NetworkNodeRetrieveSerializer
     permission_classes = [IsAuthenticated]
 
+
 class NetworkNodeListAPIView(ListAPIView):
     """
     Список узлов сети

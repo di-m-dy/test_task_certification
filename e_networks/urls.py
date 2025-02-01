@@ -12,11 +12,10 @@ router.register(r"products", ProductViewSet, basename='products')
 router.register(r"contacts", ContactsViewSet, basename='contacts')
 
 urlpatterns = [
-    path('create/', NetworkNodeCreateAPIView.as_view(), name='network-node-create'),
-    path('<int:pk>/', NetworkNodeRetrieveAPIView.as_view(), name='network-node-detail'),
-    path('<int:pk>/update/', NetworkNodeUpdateAPIView.as_view(), name='network-node-update'),
-    path('<int:pk>/delete/', NetworkNodeDestroyAPIView.as_view(), name='network-node-delete'),
-    path('', NetworkNodeListAPIView.as_view(), name='network-node-list'),
-    path('<int:pk>/add_product/', AddProductUpdateAPIView.as_view(), name='add-product-to-network-node'),
-] + router.urls
-
+                  path('create/', NetworkNodeCreateAPIView.as_view(), name='network-node-create'),
+                  path('<int:pk>/', NetworkNodeRetrieveAPIView.as_view(), name='network-node-detail'),
+                  path('<int:pk>/update/', NetworkNodeUpdateAPIView.as_view(), name='network-node-update'),
+                  path('<int:pk>/delete/', NetworkNodeDestroyAPIView.as_view(), name='network-node-delete'),
+                  path('', NetworkNodeListAPIView.as_view(), name='network-node-list'),
+                  path('<int:pk>/add_product/', AddProductUpdateAPIView.as_view(), name='add-product-to-network-node'),
+              ] + router.urls

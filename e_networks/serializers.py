@@ -1,8 +1,7 @@
-from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
-from rest_framework.serializers import ModelSerializer, BaseSerializer
+from rest_framework.serializers import ModelSerializer
 
 from e_networks.models import NetworkNode, Contacts, Product
 
@@ -25,7 +24,6 @@ class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-
 
 
 class NetworkNodeCreateSerializer(ModelSerializer):
@@ -59,7 +57,6 @@ class NetworkNodeUpdateSerializer(ModelSerializer):
         read_only_fields = ('debt', 'created_at')
 
 
-
 class NetworkSupplierSerializer(ModelSerializer):
     """
     Сериализатор для получения поставщика
@@ -75,7 +72,6 @@ class NetworkSupplierSerializer(ModelSerializer):
         exclude = ('debt', 'created_at', 'supplier', 'products')
 
 
-
 class NetworkNodeRetrieveSerializer(ModelSerializer):
     """
     Сериализатор для получения узла сети
@@ -89,13 +85,13 @@ class NetworkNodeRetrieveSerializer(ModelSerializer):
         fields = '__all__'
 
 
-
 class NetworkNodeListSerializer(ModelSerializer):
     """
     Сериализатор для списка узлов сети
     """
     # Количество продуктов у данного узла
     product_count = SerializerMethodField()
+
     def get_product_count(self, obj):
         return obj.products.count()
 
@@ -124,6 +120,7 @@ class AddProductToNetworkNodeSerializer(ModelSerializer):
     """
     add_product = PrimaryKeyRelatedField(queryset=Product.objects.all(), write_only=True)
     added_product = SerializerMethodField()
+
     def get_added_product(self, obj):
         data = obj.products.last()
         return ProductSerializer(data).data
@@ -131,7 +128,6 @@ class AddProductToNetworkNodeSerializer(ModelSerializer):
     class Meta:
         model = NetworkNode
         fields = ('add_product', 'added_product')
-
 
     def update(self, instance, validated_data):
         product = validated_data.pop('add_product')

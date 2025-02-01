@@ -2,7 +2,6 @@ from django.db import models
 from django_countries.fields import CountryField
 
 
-
 class Contacts(models.Model):
     """
     Модель контактов
@@ -20,7 +19,6 @@ class Contacts(models.Model):
     class Meta:
         verbose_name = 'контакт'
         verbose_name_plural = 'контакты'
-
 
 
 class NetworkNode(models.Model):

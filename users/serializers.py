@@ -51,6 +51,3 @@ class UserDestroySerializer(ModelSerializer):
         model = User
         fields = ('id', 'email')
         read_only_fields = ('id', 'email')
-
-
-
