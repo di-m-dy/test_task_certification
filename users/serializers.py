@@ -1,5 +1,4 @@
 from rest_framework.serializers import ModelSerializer
-
 from users.models import User
 
 
@@ -52,3 +51,6 @@ class UserDestroySerializer(ModelSerializer):
         model = User
         fields = ('id', 'email')
         read_only_fields = ('id', 'email')
+
+
+
